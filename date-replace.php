@@ -36,5 +36,5 @@ $directory = __DIR__ . '/files/';
 $outputDirectory = __DIR__ . '/files2/';
 $newDate = '2016-01-05';
 
-dateReplace($directory, $newDate);
+dateReplace($directory, $newDate, $outputDirectory);
 ?>
