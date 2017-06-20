@@ -10,23 +10,17 @@
  */
 function dateReplace($directory, $newDate, $outputDirectory)
 {
-    // si l'ouverture de pépertoir est ok
     if ($handle = opendir($directory)) {
         // on traverse le répertoire temps qu'il reste des entrées
         while (false !== ($entry = readdir($handle))) {
-            // on teste si c'est un fichier
+            // on check si c'est bien un fichier
             if ($entry != "." && $entry != "..") {
-                // je stocke le contenus du fichier dans une variable
                 $string = file_get_contents($directory . $entry);
-                // ma regex qui cherche les dates
                 $pattern = '/(Date=")([0-9-]{10})(")/';
-                // je remplace les dates dans le contenu
                 $content = preg_replace($pattern, 'Date="' . $newDate . '"', $string);
-                // j'insert le contenu dans un nouveau fichier
                 file_put_contents($outputDirectory . $entry, $content);
             }
         }
-        // je ferme le répertoire
         closedir($handle);
     }
 }
