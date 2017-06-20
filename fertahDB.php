@@ -1,5 +1,5 @@
 <?php
-class fertahDB
+class ffDB
 {
     public $user;
     public $pass;
@@ -27,16 +27,18 @@ class fertahDB
 
     public function doMany($cols, $values)
     {
-        $stmt = $this->dbc->prepare('INSERT INTO '
-            . str_ireplace('.csv', '', $this->table)
-            . ' (`' . implode("`,`", $cols)
-            . '`) VALUES (:'
-            . implode(", :", $cols) . ')');
+        $table = str_ireplace('.csv', '', $this->table);
+        $columns = implode("`,`", $cols);
+        $values = implode(", :", $cols);
+
+        $stmt = $this->dbc->prepare("INSERT INTO $table ($columns) VALUES (:$values)");
+
         $n = 0;
         foreach ($cols as $key) {
             $stmt->bindParam(':' . $key, $values[$n]);
             $n++;
         }
+
         $stmt->execute();
     }
 
@@ -46,7 +48,7 @@ class fertahDB
     }
 
     /*
-    $tst = new fertahDB();
+    $tst = new ffDB();
     $tst->user = 'admin';
     $tst->pass = '******';
     $tst->db = 'db_tst';
